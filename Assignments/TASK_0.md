@@ -5,28 +5,117 @@
 Compilez et lancez le programme.
 
 Allez dans le fichier `tower_sim.cpp` et recherchez la fonction responsable de gérer les inputs du programme.
+
+*La méthode `void TowerSimulation::create_keystrokes() const`*
+
 Sur quelle touche faut-il appuyer pour ajouter un avion ?
+
+*Sur la touche <kbd>C</kbd>.*
+
 Comment faire pour quitter le programme ?
+
+*Appuyer sur les touches <kbd>Q</kbd> ou <kbd>X</kbd>.*
+
 A quoi sert la touche 'F' ?
+
+*Elle sert à passer en plein-écran. (Crash sous Mac)*
 
 Ajoutez un avion à la simulation et attendez.
 Que est le comportement de l'avion ?
+
+*L'avion atterri, attend quelque temps sur le tarmac et redécolle.*
+
 Quelles informations s'affichent dans la console ?
+
+*Le nom de l'avion et ce qu'il fait.*
 
 Ajoutez maintenant quatre avions d'un coup dans la simulation.
 Que fait chacun des avions ?
+
+*Trois avions peuvent être au sol simultanément. 
+Le dernier avion attend en tournant autour de l'aéroport.*
 
 ## B- Analyse du code
 
 Listez les classes du programme à la racine du dossier src/.
 Pour chacune d'entre elle, expliquez ce qu'elle représente et son rôle dans le programme.
 
+- `aircraft.hpp` : Représente un avion.
+- `aircraft_types.hpp` : Définit les différents types d'avions.
+- `aiport.hpp` : Représente un aéroport.
+- `airpot_type.hpp` : Définit les différents types d'aéroports.
+- `config.hpp` : Stocke la configuration du jeu.
+- `geometry.hpp` : Définit les structures géométriques (points en 2D et 3D).
+- `runway.hpp` : Représente une piste de décollage/atterrissage.
+- `terminal.hpp` : Représente un terminal auquel un avion peut s'arrêter.
+- `tower.hpp` : Représente une tour de contrôle, donc la gestion d'un aéroport.
+- `tower_sim.hpp` : Décrit la logique d'un aéroport.
+- `waypoint.hpp` : Définit un point de passage, utilisé pour créer des routes.
+
 Pour les classes `Tower`, `Aircaft`, `Airport` et `Terminal`, listez leurs fonctions-membre publiques et expliquez précisément à quoi elles servent.
 Réalisez ensuite un schéma présentant comment ces différentes classes intéragissent ensemble.
 
+- `Tower`
+  - `WaypointQueue get_instructions(Aircraft& aircraft)` :
+
+    Récupère les points de passage par lesquels passer avant d'atterrir.
+  - `void arrived_at_terminal(const Aircraft& aircraft)` :
+
+    Signale qu'un avion a atterri et commence l'embarquement.
+- `Aircraft`
+  - `const std::string& get_flight_num() const`
+
+    Récupère le numéro de vol d'un avion.
+  - `float distance_to(const Point3D& p) const`
+
+    Calcule la distance séparant un avion d'un point donné.
+  - `void display() const`
+
+    Fonction d'affichage de l'avion.
+  - `void Aircraft::move()`
+  
+    Fait se déplacer l'avion jusqu'au prochain point de passage.
+- `Airport`
+  - `Tower& get_tower()`
+
+    Récupère la tour de contrôle de l'aéroport.
+  - `void display() const`
+
+    Fonction d'affichage de l'aéroport.
+  - `void move()`
+
+    Fonction de placement de l'aéroport.
+- `Terminal`
+  - `bool in_use() const`
+
+    Détermine si le terminal est utilisé par un avion.
+  - `bool is_servicing() const`
+
+    Détermine si un embarquement ou un débarquement est en cours.
+  - `void assign_craft(const Aircraft& aircraft)`
+    
+    Rattache un avion au terminal.
+  - `void start_service(const Aircraft& aircraft)`
+
+    Commence le service du terminal (débarquement et embarquement).
+  - `void finish_service()`
+
+    Termine le service au terminal.
+  - `void move()`
+
+    Fonction de rafraichissement.
+
 Quelles classes et fonctions sont impliquées dans la génération du chemin d'un avion ?
+
+*Le chemin d'un avion est défini par une succession de `Waypoint`.*
+
 Quel conteneur de la librairie standard a été choisi pour représenter le chemin ?
+
+*Les points de passage sont stockés dans une `deque`.*
+
 Expliquez les intérêts de ce choix.
+
+*Ce choix est cohérent, car un avion doit passer par tous les points, dans l'ordre de lesquels il les reçoit (FIFO)* 
 
 ## C- Bidouillons !
 
