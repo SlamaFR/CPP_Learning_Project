@@ -119,9 +119,11 @@ Expliquez les intérêts de ce choix.
 
 ## C- Bidouillons !
 
-1) Déterminez à quel endroit du code sont définies les vitesses maximales et accélération de chaque avion.
+1) Déterminez à quel endroit du code sont définies les vitesses maximales et accélération de chaque avion. 
 Le Concorde est censé pouvoir voler plus vite que les autres avions.
 Modifiez le programme pour tenir compte de cela.
+
+*Les vitesses sont stockées dans `config.hpp`. Vitesse changée en 0,1.*
 
 2) Identifiez quelle variable contrôle le framerate de la simulation.
 Ajoutez deux nouveaux inputs au programme permettant d'augmenter ou de diminuer cette valeur.
