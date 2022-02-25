@@ -140,7 +140,9 @@ Ajoutez une nouvelle fonctionnalité au programme pour mettre le programme en pa
 
 3) Identifiez quelle variable contrôle le temps de débarquement des avions et doublez-le.
 
-4) Lorsqu'un avion a décollé, il réattérit peu de temps après.
+*C'est `SERVICE_CYCLES` dans la config.*
+
+4) Lorsqu'un avion a décollé, il réatterrit peu de temps après.
 Faites en sorte qu'à la place, il soit retiré du programme.\
 Indices :\
 A quel endroit pouvez-vous savoir que l'avion doit être supprimé ?\
