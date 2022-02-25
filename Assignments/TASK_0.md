@@ -150,6 +150,14 @@ Pourquoi n'est-il pas sûr de procéder au retrait de l'avion dans cette fonctio
 A quel endroit de la callstack pourriez-vous le faire à la place ?\
 Que devez-vous modifier pour transmettre l'information de la première à la seconde fonction ?
 
+*On peut savoir que l'avion part après son service dans `get_instructions()` de la classe Tower.*
+
+*On ne peut pas le supprimer ici, car ça invaliderait tous les itérateurs qui le contiennent.*
+
+*Il faut faire remonter l'info dans la fonction move, afin de gérer la suppression dans la fonction `timer()`.*
+
+*Dans la méthode `move()` de `Aircraft`, si nous n'avons plus de waypoints, alors on est sorti et donc on peut retourner `true`.*
+
 5) Lorsqu'un objet de type `Displayable` est créé, il faut ajouter celui-ci manuellement dans la liste des objets à afficher.
 Il faut également penser à le supprimer de cette liste avant de le détruire.
 Faites en sorte que l'ajout et la suppression de `display_queue` soit "automatiquement gérée" lorsqu'un `Displayable` est créé ou détruit.

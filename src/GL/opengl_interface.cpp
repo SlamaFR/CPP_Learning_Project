@@ -89,7 +89,7 @@ void timer(const int step)
     {
         for (auto& item : move_queue)
         {
-            item->move();
+            item->move(); // if true, delete it.
         }
     }
     glutPostRedisplay();
