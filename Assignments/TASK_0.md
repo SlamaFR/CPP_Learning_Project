@@ -126,9 +126,17 @@ Modifiez le programme pour tenir compte de cela.
 *Les vitesses sont stockées dans `config.hpp`. Vitesse changée en 0,1.*
 
 2) Identifiez quelle variable contrôle le framerate de la simulation.
+
+*C'est la variable `ticks_per_sec` dans opengl_interface*
+
 Ajoutez deux nouveaux inputs au programme permettant d'augmenter ou de diminuer cette valeur.
-Essayez maintenant de mettre en pause le programme en manipulant ce framerate. Que se passe-t-il ?\
+Essayez maintenant de mettre en pause le programme en manipulant ce framerate. Que se passe-t-il ?
+
+*Si on tente de baisser la framerate jusqu'à 0, ça fait tourner le jeu sans délais, donc à la vitesse maximum.*
+
 Ajoutez une nouvelle fonctionnalité au programme pour mettre le programme en pause, et qui ne passe pas par le framerate.
+
+*J'ai rajouté un booléen qui dit si on doit appeler les méthodes `move()`.*
 
 3) Identifiez quelle variable contrôle le temps de débarquement des avions et doublez-le.
 
