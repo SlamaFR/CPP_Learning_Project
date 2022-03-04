@@ -92,7 +92,14 @@ bool Aircraft::move()
 {
     if (waypoints.empty())
     {
-        return true;
+        if (has_served)
+        {
+            return true;
+        }
+        else
+        {
+            waypoints = control.get_instructions(*this);
+        }
     }
 
     if (!is_at_terminal)
