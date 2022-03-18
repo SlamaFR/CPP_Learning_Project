@@ -87,18 +87,8 @@ void timer(const int step)
 {
     if (!pause)
     {
-        for (auto it = move_queue.begin(); it != move_queue.end();)
-        {
-            auto* item = *it;
-            if (item->move())
-            {
-                it = move_queue.erase(it);
-                delete item;
-            }
-            else
-            {
-                ++it;
-            }
+        for (const auto &item : move_queue) {
+            item->move();
         }
     }
     glutPostRedisplay();
