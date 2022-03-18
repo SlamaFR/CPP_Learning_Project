@@ -28,7 +28,8 @@ private:
         assert(airport); // make sure the airport is initialized before creating aircraft
 
         std::string flight_number;
-        do {
+        do
+        {
             flight_number = airlines[std::rand() % 8] + std::to_string(1000 + (rand() % 9000));
         }
         while (existingFlightNumber.find(flight_number) != existingFlightNumber.end());
@@ -45,5 +46,16 @@ public:
     AircraftFactory() { init_aircraft_types(); };
     ~AircraftFactory() = default;
 
-    std::unique_ptr<Aircraft> create_random_aircraft(Airport* airport) { return create_aircraft(airport, *(aircraft_types[rand() % 3])); }
+    std::unique_ptr<Aircraft> create_random_aircraft(Airport* airport)
+    {
+        return create_aircraft(airport, *(aircraft_types[rand() % 3]));
+    }
+
+    void printExistingFlight(int i)
+    {
+        const std::string& airline = airlines[i];
+        const auto count =  std::count_if(existingFlightNumber.begin(), existingFlightNumber.end(),
+                             [airline](const std::string& item) { return item.rfind(airline, 0) == 0; });
+        std::cout << airline << ": " << count << std::endl;
+    }
 };

@@ -2,6 +2,7 @@
 
 #include "aircraft.hpp"
 
+#include <algorithm>
 #include <vector>
 
 class AircraftManager : public GL::DynamicObject
@@ -11,17 +12,8 @@ public:
 
     bool move() override
     {
-        for (auto it = aircrafts.begin(); it != aircrafts.end();)
-        {
-            if ((*it)->move())
-            {
-                it = aircrafts.erase(it);
-            }
-            else
-            {
-                ++it;
-            }
-        }
+        auto toDelete = std::remove_if(aircrafts.begin(), aircrafts.end(), [](const auto& item) { return item->move(); });
+        aircrafts.erase(toDelete, aircrafts.end());
         return true;
     }
 
