@@ -90,21 +90,14 @@ void Aircraft::add_waypoint(const Waypoint& wp, const bool front)
 
 bool Aircraft::move()
 {
-    if (--fuel == 0)
-    {
-        std::cout << flight_number << " ran out of fuel" << std::endl;
-        return true;
-    }
+
     if (waypoints.empty())
     {
         if (has_served)
         {
             return true;
         }
-        else
-        {
-            waypoints = control.get_instructions(*this);
-        }
+        waypoints = control.get_instructions(*this);
     }
 
     if (!is_at_terminal)
@@ -137,6 +130,12 @@ bool Aircraft::move()
         }
         else
         {
+            if (--fuel == 0)
+            {
+                std::cout << flight_number << " ran out of fuel" << std::endl;
+                return true;
+            }
+
             // if we are in the air, but too slow, then we will sink!
             const float speed_len = speed.length();
             if (speed_len < SPEED_THRESHOLD)
