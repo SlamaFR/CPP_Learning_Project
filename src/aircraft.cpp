@@ -90,7 +90,6 @@ void Aircraft::add_waypoint(const Waypoint& wp, const bool front)
 
 bool Aircraft::move()
 {
-
     if (waypoints.empty())
     {
         if (has_served)
@@ -98,6 +97,15 @@ bool Aircraft::move()
             return true;
         }
         waypoints = control.get_instructions(*this);
+    }
+
+    if (is_circling())
+    {
+        WaypointQueue pathToTerminal = control.reserve_terminal(*this);
+        if (!pathToTerminal.empty())
+        {
+            waypoints = std::move(pathToTerminal);
+        }
     }
 
     if (!is_at_terminal)
@@ -133,6 +141,7 @@ bool Aircraft::move()
             if (--fuel == 0)
             {
                 std::cout << flight_number << " ran out of fuel" << std::endl;
+                control.kill(*this);
                 return true;
             }
 

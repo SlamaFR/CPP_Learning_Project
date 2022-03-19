@@ -45,7 +45,7 @@ WaypointQueue Tower::get_instructions(Aircraft& aircraft)
             terminal.finish_service();
             reserved_terminals.erase(&aircraft);
             aircraft.is_at_terminal = false;
-            aircraft.has_served = true;
+            aircraft.has_served     = true;
             return airport.start_path(terminal_num);
         }
         else
@@ -55,8 +55,26 @@ WaypointQueue Tower::get_instructions(Aircraft& aircraft)
     }
 }
 
+WaypointQueue Tower::reserve_terminal(Aircraft& aircraft)
+{
+    const auto vp = airport.reserve_terminal(aircraft);
+    if (!vp.first.empty())
+    {
+        reserved_terminals[&aircraft] = vp.second;
+    }
+    return vp.first;
+}
+
 void Tower::arrived_at_terminal(const Aircraft& aircraft)
 {
     const auto terminal_num = reserved_terminals[&aircraft];
     airport.get_terminal(terminal_num).start_service(aircraft);
+}
+void Tower::kill(Aircraft& aircraft)
+{
+    const auto it = reserved_terminals.find(&aircraft);
+    if (it != reserved_terminals.end()) {
+        airport.get_terminal(it->second).free();
+        reserved_terminals.erase(it);
+    }
 }
