@@ -141,7 +141,6 @@ bool Aircraft::move()
             if (--fuel == 0)
             {
                 std::cout << flight_number << " ran out of fuel" << std::endl;
-                control.kill(*this);
                 return true;
             }
 

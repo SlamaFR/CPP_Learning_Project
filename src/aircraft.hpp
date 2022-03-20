@@ -59,6 +59,10 @@ public:
         speed.cap_length(max_speed());
     }
 
+    ~Aircraft() {
+        control.kill(*this);
+    }
+
     const std::string& get_flight_num() const { return flight_number; }
     float distance_to(const Point3D& p) const { return pos.distance_to(p); }
     bool has_terminal() const { return !waypoints.empty() && waypoints.back().is_at_terminal(); };
