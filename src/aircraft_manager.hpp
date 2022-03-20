@@ -12,7 +12,19 @@ public:
 
     bool move() override
     {
-        auto toDelete = std::remove_if(aircrafts.begin(), aircrafts.end(), [](const auto& item) { return item->move(); });
+
+        std::sort(aircrafts.begin(), aircrafts.end(),
+                  [](const std::unique_ptr<Aircraft>& a, const std::unique_ptr<Aircraft>& b)
+                  {
+                      if (a->has_terminal())
+                          return true;
+                      if (b->has_terminal())
+                          return false;
+                      return a->fuel_level() < b->fuel_level();
+                  });
+
+        auto toDelete =
+            std::remove_if(aircrafts.begin(), aircrafts.end(), [](const auto& item) { return item->move(); });
         aircrafts.erase(toDelete, aircrafts.end());
         return true;
     }
