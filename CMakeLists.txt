@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0.0)
 
-project(tower_sim VERSION 0.1.0)
+project(M1-S2-CPP-Project VERSION 0.1.0)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
 add_executable(tower

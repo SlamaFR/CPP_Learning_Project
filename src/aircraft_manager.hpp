@@ -29,6 +29,17 @@ public:
         return true;
     }
 
+    int get_required_fuel() const
+    {
+        return std::reduce(aircrafts.begin(), aircrafts.end(), 0,
+                           [](int acc, const std::unique_ptr<Aircraft>& cur)
+                           {
+                               if (!cur->is_low_on_fuel() || cur->has_served())
+                                   return acc;
+                               return acc + 3000 - cur->fuel_level();
+                           });
+    }
+
 private:
     std::vector<std::unique_ptr<Aircraft>> aircrafts;
 };

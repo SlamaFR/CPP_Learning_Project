@@ -45,7 +45,7 @@ WaypointQueue Tower::get_instructions(Aircraft& aircraft)
             terminal.finish_service();
             reserved_terminals.erase(&aircraft);
             aircraft.is_at_terminal = false;
-            aircraft.has_served     = true;
+            aircraft.served         = true;
             return airport.start_path(terminal_num);
         }
         else

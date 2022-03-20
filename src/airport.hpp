@@ -3,6 +3,7 @@
 #include "GL/displayable.hpp"
 #include "GL/dynamic_object.hpp"
 #include "GL/texture.hpp"
+#include "aircraft_manager.hpp"
 #include "airport_type.hpp"
 #include "geometry.hpp"
 #include "img/image.hpp"
@@ -10,6 +11,7 @@
 #include "terminal.hpp"
 #include "tower.hpp"
 
+#include <utility>
 #include <vector>
 
 class Airport : public GL::Displayable, public GL::DynamicObject
@@ -18,8 +20,14 @@ private:
     const AirportType& type;
     const Point3D pos;
     const GL::Texture2D texture;
+    const AircraftManager& manager;
     std::vector<Terminal> terminals;
     Tower tower;
+
+    int fuel_stock   = 0;
+    int ordered_fuel = 5000;
+
+    int next_refill_time = 0;
 
     // reserve a terminal
     // if a terminal is free, return
@@ -51,11 +59,13 @@ private:
     Terminal& get_terminal(const size_t terminal_num) { return terminals.at(terminal_num); }
 
 public:
-    Airport(const AirportType& type_, const Point3D& pos_, const img::Image* image, const float z_ = 1.0f) :
+    Airport(const AirportType& type_, const AircraftManager& manager_, const Point3D& pos_, const img::Image* image,
+            const float z_ = 1.0f) :
         GL::Displayable { z_ },
         type { type_ },
         pos { pos_ },
         texture { image },
+        manager { manager_ },
         terminals { type.create_terminals() },
         tower { *this }
     {}
@@ -66,8 +76,20 @@ public:
 
     bool move() override
     {
+        if (next_refill_time == 0)
+        {
+            std::cout << "Received " << ordered_fuel <<"L of fuel" << std::endl;
+            std::cout << "Current fuel stock: " << fuel_stock << std::endl;
+            fuel_stock += ordered_fuel;
+            std::cout << "New fuel stock: " << fuel_stock << std::endl;
+            ordered_fuel = std::min(manager.get_required_fuel(), 5000);
+            next_refill_time = 100;
+        } else {
+            next_refill_time--;
+        }
         for (auto& t : terminals)
         {
+            t.refill_aircraft_if_needed(fuel_stock);
             t.move();
         }
         return false;

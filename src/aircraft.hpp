@@ -20,7 +20,7 @@ private:
     Tower& control;
     bool landing_gear_deployed = false; // is the landing gear deployed?
     bool is_at_terminal        = false;
-    bool has_served            = false;
+    bool served                = false;
     int fuel                   = 150 + std::rand() % 2850;
 
     // turn the aircraft to arrive at the next waypoint
@@ -62,11 +62,22 @@ public:
     const std::string& get_flight_num() const { return flight_number; }
     float distance_to(const Point3D& p) const { return pos.distance_to(p); }
     bool has_terminal() const { return !waypoints.empty() && waypoints.back().is_at_terminal(); };
-    bool is_circling() const { return !has_served && !waypoints.empty() && !has_terminal(); };
+    bool is_circling() const { return !served && !waypoints.empty() && !has_terminal(); };
 
     void display() const override;
     bool move() override;
     int fuel_level() const { return fuel; }
+    bool is_low_on_fuel() const { return fuel < 200; }
+    bool has_served() const;
+
+    void refill(int& fuel_stock)
+    {
+        auto needed_fuel = std::min(3000 - fuel, fuel_stock);
+        fuel += needed_fuel;
+        fuel_stock -= needed_fuel;
+        std::cout << flight_number << " got refilled using " << needed_fuel << "L of fuel" << std::endl;
+        assert(fuel_stock >= 0);
+    }
 
     friend class Tower;
 };
