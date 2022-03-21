@@ -26,6 +26,7 @@ private:
     std::unique_ptr<Aircraft> create_aircraft(Airport* airport, const AircraftType& type)
     {
         assert(airport); // make sure the airport is initialized before creating aircraft
+        assert(&type);
 
         std::string flight_number;
         do
@@ -48,6 +49,7 @@ public:
 
     std::unique_ptr<Aircraft> create_random_aircraft(Airport* airport)
     {
+        assert(airport);
         return create_aircraft(airport, *(aircraft_types[rand() % 3]));
     }
 

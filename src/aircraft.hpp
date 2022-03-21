@@ -59,12 +59,14 @@ public:
         speed.cap_length(max_speed());
     }
 
-    ~Aircraft() {
-        control.kill(*this);
-    }
+    ~Aircraft() { control.kill(*this); }
 
     const std::string& get_flight_num() const { return flight_number; }
-    float distance_to(const Point3D& p) const { return pos.distance_to(p); }
+    float distance_to(const Point3D& p) const
+    {
+        assert(&p);
+        return pos.distance_to(p);
+    }
     bool has_terminal() const { return !waypoints.empty() && waypoints.back().is_at_terminal(); };
     bool is_circling() const { return !served && !waypoints.empty() && !has_terminal(); };
 
@@ -76,11 +78,13 @@ public:
 
     void refill(int& fuel_stock)
     {
+        assert(fuel_stock);
         auto needed_fuel = std::min(3000 - fuel, fuel_stock);
         fuel += needed_fuel;
         fuel_stock -= needed_fuel;
         std::cout << flight_number << " got refilled using " << needed_fuel << "L of fuel" << std::endl;
         assert(fuel_stock >= 0);
+        assert(fuel > 0);
     }
 
     friend class Tower;

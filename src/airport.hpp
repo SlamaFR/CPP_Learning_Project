@@ -36,6 +36,8 @@ private:
     // otherwise, return an empty waypoint-vector and any number
     std::pair<WaypointQueue, size_t> reserve_terminal(Aircraft& aircraft)
     {
+        assert(&aircraft);
+
         const auto it =
             std::find_if(terminals.begin(), terminals.end(), [](const Terminal& t) { return !t.in_use(); });
 
@@ -78,9 +80,11 @@ public:
     {
         if (next_refill_time == 0)
         {
+            assert(ordered_fuel >= 0);
             std::cout << "Received " << ordered_fuel <<"L of fuel" << std::endl;
             std::cout << "Current fuel stock: " << fuel_stock << std::endl;
             fuel_stock += ordered_fuel;
+            assert(fuel_stock >= 0);
             std::cout << "New fuel stock: " << fuel_stock << std::endl;
             ordered_fuel = std::min(manager.get_required_fuel(), 5000);
             next_refill_time = 100;

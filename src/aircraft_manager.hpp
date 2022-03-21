@@ -8,7 +8,11 @@
 class AircraftManager : public GL::DynamicObject
 {
 public:
-    void add_aircraft(std::unique_ptr<Aircraft> aircraft) { aircrafts.emplace_back(std::move(aircraft)); }
+    void add_aircraft(std::unique_ptr<Aircraft> aircraft)
+    {
+        assert(aircraft);
+        aircrafts.emplace_back(std::move(aircraft));
+    }
 
     bool move() override
     {
@@ -51,7 +55,8 @@ public:
                            });
     }
 
-    void print_crashed_aircrafts() const {
+    void print_crashed_aircrafts() const
+    {
         std::cout << "So far, " << crashed_aircrafts << " aircrafts crashed into the ground" << std::endl;
     }
 
