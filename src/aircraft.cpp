@@ -140,8 +140,7 @@ bool Aircraft::move()
         {
             if (--fuel == 0)
             {
-                std::cout << flight_number << " ran out of fuel" << std::endl;
-                return true;
+                throw AircraftCrash { flight_number + " ran out of fuel" };
             }
 
             // if we are in the air, but too slow, then we will sink!

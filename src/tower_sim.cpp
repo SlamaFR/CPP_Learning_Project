@@ -36,6 +36,7 @@ void TowerSimulation::create_keystrokes()
     GL::keystrokes.emplace('p', []() { GL::toggle_pause(); });
     GL::keystrokes.emplace('u', []() { GL::update_framerate(-1); });
     GL::keystrokes.emplace('i', []() { GL::update_framerate(1); });
+    GL::keystrokes.emplace('m', [this]() { manager.print_crashed_aircrafts(); });
 
     GL::keystrokes.emplace('0', [this]() { factory.printExistingFlight(0); });
     GL::keystrokes.emplace('1', [this]() { factory.printExistingFlight(1); });
