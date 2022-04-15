@@ -69,6 +69,9 @@ Comment pourriez-vous expliquer que cette erreur ne se produise que maintenant ?
 *Car le type `Point2D` est maintenant un alias de `Point<float, 2>`, or le constructeur ne tient pas compte du type à gauche.*
 
 5. Que se passe-t-il maintenant si vous essayez d'instancier un `Point3D` avec 2 arguments ?
+
+*Le code compile et fonctionne cependant, c'est un undefined behavior, car la troisième composante est n'est pas initialisée.*
+
 Utilisez un `static_assert` afin de vous assurez que personne ne puisse initialiser un `Point3D` avec seulement deux éléments.
 Faites en de même dans les fonctions `y()` et `z()`, pour vérifier que l'on ne puisse pas les appeler sur des `Point` qui n'ont pas la dimension minimale requise.
 

@@ -14,7 +14,9 @@ template <typename type, int dim> struct Point
 
     Point() {}
 
-    Point(type x, type y) : values { x, y } {}
+    Point(type x, type y) : values { x, y } {
+        static_assert(dim == 2, "Point with two components can only be in 2 dimensions");
+    }
 
     Point(type x, type y, type z) : values { x, y, z } {}
 

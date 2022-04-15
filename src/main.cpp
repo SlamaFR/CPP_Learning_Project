@@ -10,7 +10,7 @@ void test_generic_points() {
     std::cout << p3.x() << std::endl;
 
     Point3D p4 = {1, 2};
-    Point2D p5 = {1, 2, 6};
+    std::cout << p4.x() << " " << p4.y() << " " << p4.z() << std::endl;
 }
 
 int main(int argc, char** argv)
