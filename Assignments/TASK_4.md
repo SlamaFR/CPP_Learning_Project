@@ -61,7 +61,12 @@ Vérifiez que votre programme compile et fonctionne comme avant.
 
 4. Dans la fonction `test_generic_points`, essayez d'instancier un `Point2D` avec 3 arguments.
 Que se passe-t-il ?
+
+*On obtient une erreur de compilation, car l'array de taille 2 sera initialisé avec 3 éléments.*
+
 Comment pourriez-vous expliquer que cette erreur ne se produise que maintenant ?
+
+*Car le type `Point2D` est maintenant un alias de `Point<float, 2>`, or le constructeur ne tient pas compte du type à gauche.*
 
 5. Que se passe-t-il maintenant si vous essayez d'instancier un `Point3D` avec 2 arguments ?
 Utilisez un `static_assert` afin de vous assurez que personne ne puisse initialiser un `Point3D` avec seulement deux éléments.

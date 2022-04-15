@@ -8,6 +8,9 @@ void test_generic_points() {
     p1 += p2;
     p1 *= 3.f; // ou 3.f, ou 3.0 en fonction du type de Point
     std::cout << p3.x() << std::endl;
+
+    Point3D p4 = {1, 2};
+    Point2D p5 = {1, 2, 6};
 }
 
 int main(int argc, char** argv)
