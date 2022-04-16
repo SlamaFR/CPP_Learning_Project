@@ -6,19 +6,22 @@
 #include <cmath>
 #include <iostream>
 #include <numeric>
+#include <utility>
 
 template <typename type, int dim> struct Point
 {
-
     std::array<type, dim> values {};
 
-    Point() {}
+    Point() = default;
 
-    Point(type x, type y) : values { x, y } {
-        static_assert(dim == 2, "Point with two components can only be in 2 dimensions");
+    Point(type x, type y) : values { x, y } { static_assert(dim == 2); }
+
+    Point(type x, type y, type z) : values { x, y, z } { static_assert(dim == 3); }
+
+    template <typename... N> explicit Point(N&&... numbers) : values { static_cast<type>(numbers)... }
+    {
+        static_assert(sizeof...(numbers) == dim);
     }
-
-    Point(type x, type y, type z) : values { x, y, z } {}
 
     template <int i> type& get() { return values[i]; }
 

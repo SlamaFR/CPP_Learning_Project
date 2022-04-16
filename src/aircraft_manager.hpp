@@ -27,19 +27,19 @@ public:
                       return a->fuel_level() < b->fuel_level();
                   });
 
-        auto toDelete = std::remove_if(aircrafts.begin(), aircrafts.end(),
-                                       [this](const auto& item)
-                                       {
-                                           try
-                                           {
-                                               return item->move();
-                                           } catch (const AircraftCrash& err)
-                                           {
-                                               std::cerr << err.what() << std::endl;
-                                               crashed_aircrafts++;
-                                               return true;
-                                           }
-                                       });
+        const auto& pred = [this](const auto& item)
+        {
+            try
+            {
+                return item->move();
+            } catch (const AircraftCrash& err)
+            {
+                std::cerr << err.what() << std::endl;
+                crashed_aircrafts++;
+                return true;
+            }
+        };
+        auto toDelete = std::remove_if(aircrafts.begin(), aircrafts.end(), pred);
         aircrafts.erase(toDelete, aircrafts.end());
         return true;
     }
