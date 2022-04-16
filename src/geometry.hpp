@@ -14,11 +14,8 @@ template <typename type, int dim> struct Point
 
     Point() = default;
 
-    Point(type x, type y) : values { x, y } { static_assert(dim == 2); }
-
-    Point(type x, type y, type z) : values { x, y, z } { static_assert(dim == 3); }
-
-    template <typename... N> explicit Point(N&&... numbers) : values { static_cast<type>(numbers)... }
+    template <typename... N>
+    explicit Point(N&&... numbers) : values { std::forward<type>(static_cast<type>(numbers))... }
     {
         static_assert(sizeof...(numbers) == dim);
     }
@@ -167,5 +164,5 @@ using Point3D = Point<float, 3>;
 // {1,0,0} --> {.5,.5}   {0,1,0} --> {-.5,.5}   {0,0,1} --> {0,1}
 inline Point2D project_2D(const Point3D& p)
 {
-    return { .5f * p.x() - .5f * p.y(), .5f * p.x() + .5f * p.y() + p.z() };
+    return Point2D { .5f * p.x() - .5f * p.y(), .5f * p.x() + .5f * p.y() + p.z() };
 }
