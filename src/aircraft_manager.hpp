@@ -20,11 +20,18 @@ public:
         std::sort(aircrafts.begin(), aircrafts.end(),
                   [](const std::unique_ptr<Aircraft>& a, const std::unique_ptr<Aircraft>& b)
                   {
-                      if (a->has_terminal())
+                      if (a->has_terminal() && !b->has_terminal())
+                      {
                           return true;
-                      if (b->has_terminal())
+                      }
+                      else if (!a->has_terminal() && b->has_terminal())
+                      {
                           return false;
-                      return a->fuel_level() < b->fuel_level();
+                      }
+                      else
+                      {
+                          return a->fuel_level() < b->fuel_level();
+                      }
                   });
 
         const auto& pred = [this](const auto& item)
